@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace DriveManagement.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class StudyController : ControllerBase
     {
        
@@ -16,11 +16,16 @@ namespace DriveManagement.Controllers
         public StudyController()
         {
         }
-
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<IEnumerable<string>> Fetch()
         {
           return new []{ "Study 1", "study 2" };
+
+        }
+        [HttpGet(nameof(GetResult))]
+        public ActionResult<IEnumerable<string>> GetResult()
+        {
+            return new[] { "r1 1", "r2" };
 
         }
     }

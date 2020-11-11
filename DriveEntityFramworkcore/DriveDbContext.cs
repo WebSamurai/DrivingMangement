@@ -1,11 +1,18 @@
 ﻿using DriveEntities.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 
 namespace DriveEntityFramworkcore
 {
     public class DriveDbContext :DbContext
     {
+        public DriveDbContext(IConfiguration configuration) :base()
+        {
+            Configuration = configuration;
+        }
+        public IConfiguration Configuration { get;}
+        
         public DbSet<School> Schools { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Batch> Batchs { get; set; }
@@ -13,6 +20,6 @@ namespace DriveEntityFramworkcore
         public DbSet<Student> Students { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)=>
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=ManageDriveDb;User ID=tclocal_migratoruser;Password=TCEP;Pooling=true;");
+            optionsBuilder.UseNpgsql(Configuration["Data:DefaultConnection:ConnectionString"]);
     }
 }

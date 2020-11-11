@@ -46,6 +46,11 @@ namespace DrivePersistance.Common
             return dbSet.Where(func);
         }
 
+        public IQueryable<T> GetQuery()
+        {
+            return dbSet;
+        }
+
         public async Task<T> Update(T t)
         {
             dbSet.Attach(t);

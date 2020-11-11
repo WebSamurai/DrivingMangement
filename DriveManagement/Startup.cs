@@ -19,6 +19,7 @@ namespace DriveManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           // services.AddControllers();
             services.AddControllers();
             DomainModule.RegisterSerives(services);
             services.AddSwaggerDocument();
@@ -31,17 +32,21 @@ namespace DriveManagement
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseOpenApi();
+            app.UseSwaggerUi3(options =>
+            {
+                options.DocumentTitle = "Drive Management";
+            });
             app.UseRouting();
 
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-                //endpoints.MapControllerRoute("default",
-                //                    "{culture}/{controller=WeatherForecast}/{action=Get}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "api/{controller=Home}/{action=Index}/{id?}");
             });
-            app.UseSwaggerUi3();
+         
         }
     }
 }

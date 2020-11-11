@@ -1,4 +1,5 @@
-﻿using DrivePersistance.Common;
+﻿using DriveEntityFramworkcore;
+using DrivePersistance.Common;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ namespace DrivePersistance
     {
       public static  void RegisterSerives(IServiceCollection services)
         {
-           services.AddTransient(typeof(IRepository<,>), typeof(Repository<,>));
+            services.AddDbContext<DriveDbContext>();
+            services.AddTransient(typeof(IRepository<,>), typeof(Repository<,>));
         }
     }
 }

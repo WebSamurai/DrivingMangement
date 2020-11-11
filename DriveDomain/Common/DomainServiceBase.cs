@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DriveEntities.Entities;
 using DrivePersistance.Common;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,13 @@ using System.Threading.Tasks;
 namespace DriveDomain
 {
 
-    public class DomainServiceBase<TDto, T, tkey> : IDomainService<TDto, T, tkey> where T : EntityBase where TDto : EntityBase
+    public class DomainServiceBase<TDto, T, Tkey> : IDomainService<TDto, T, Tkey> where T : EntityBase where TDto : EntityBase
     {
-        protected readonly IRepository<T, tkey> repository;
+        protected readonly IRepository<T, Tkey> repository;
         private readonly IMapper autoMapper;
         public Action Validator= ()=> { };
 
-        public DomainServiceBase(IRepository<T, tkey> repository,IMapper autoMapper)
+        public DomainServiceBase(IRepository<T, Tkey> repository,IMapper autoMapper)
         {
             this.repository = repository;
             this.autoMapper = autoMapper;
@@ -32,19 +33,19 @@ namespace DriveDomain
 
    
 
-        public virtual async Task delete(TDto t)
+        public virtual async Task delete(Tkey t)
         {
             Validator();
-            var data = autoMapper.Map<T>(t);
+            var data = await repository.Get(t);
            await repository.Delete(data);
         }
 
         public virtual async Task<IEnumerable<TDto>> Get()
         {
-            return Enumerable.Empty<TDto>();
+           return  await repository.GetQuery().AsNoTracking().Select(x=>autoMapper.Map<TDto>(x)).ToListAsync();
         }
 
-        public async Task<TDto> Get(tkey id)
+        public async Task<TDto> Get(Tkey id)
         {
             Validator();
             return autoMapper.Map<TDto>(await repository.Get(id));

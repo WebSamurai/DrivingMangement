@@ -7,9 +7,9 @@ using System.Text;
 
 namespace DriveDomain
 {
-    public class domainCumstomAutoMapper:Profile
+    public class DomainCumstomAutoMapper:Profile
     {
-        public domainCumstomAutoMapper()
+        public DomainCumstomAutoMapper()
         {
             CreateMap<Student, StudentDto>().ReverseMap();
             CreateMap<Enquiry, EnquiryDto>().ReverseMap();

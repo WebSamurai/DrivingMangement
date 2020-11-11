@@ -9,10 +9,11 @@ namespace DriveMigrator
    public static class Migrater
     {
 
-      public static void Migrate()
+      public static void Migrate(Microsoft.Extensions.Configuration.IConfiguration configuration)
         {
             using (DriveDbContext driveDbContext = new DriveDbContext())
             {
+                driveDbContext.configuration = configuration;
                 driveDbContext.Database.Migrate();
 
             }

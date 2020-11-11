@@ -24,5 +24,6 @@ namespace DrivePersistance.Common
         Task<IEnumerable<T>> Get(Expression<Func<T, bool>> func);
 
        IQueryable<T> GetQuery(Expression<Func<T, bool>> func);
+        IQueryable<T> GetQuery();
     }
 }
