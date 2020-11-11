@@ -29,7 +29,7 @@ namespace DriveManagement.Controllers.Student
         [HttpGet("{id}")]
         public  Task<StudentDto> Get(int id)
         {
-            return  _stduentDomainService.Get(id);
+            return  _stduentDomainService.GetById(id);
         }
 
         [HttpPost(nameof(Add))]

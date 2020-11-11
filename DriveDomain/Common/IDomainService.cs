@@ -1,5 +1,7 @@
 ﻿using DriveEntities.Entities;
+using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace DriveDomain
@@ -14,6 +16,8 @@ namespace DriveDomain
 
         Task<IEnumerable<TDto>> Get();
 
-        Task<TDto> Get(Tkey id);
+        Task<TDto> GetById(Tkey id);
+        public  Task<IEnumerable<T>> Get(Expression<Func<T, bool>> func);
+        public Task<TDto> Find(Expression<Func<T, bool>> func);
     }
 }

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using DriveDomain.DomainDtos;
 using DriveDomain.DomainServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -18,7 +19,9 @@ namespace DriveManagement.Controllers.User
         {
             this._userDomainService = userDomainService;
         }
+       
         [HttpGet]
+        [Authorize]
         public Task<IEnumerable<UserDto>> Get()
         {
             return _userDomainService.Get();
@@ -27,7 +30,7 @@ namespace DriveManagement.Controllers.User
         [HttpGet("{id}")]
         public Task<UserDto> Get(int id)
         {
-            return _userDomainService.Get(id);
+            return _userDomainService.GetById(id);
         }
 
         [HttpPost(nameof(Add))]

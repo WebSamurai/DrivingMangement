@@ -27,7 +27,7 @@ namespace DriveManagement.Controllers.Batch
         [HttpGet("{id}")]
         public Task<BatchDto> Get(int id)
         {
-            return _batchDomainService.Get(id);
+            return _batchDomainService.GetById(id);
         }
 
         [HttpPost(nameof(Add))]

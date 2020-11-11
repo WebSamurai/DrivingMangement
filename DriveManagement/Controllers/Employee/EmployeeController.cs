@@ -27,7 +27,7 @@ namespace DriveManagement.Controllers.Employee
         [HttpGet("{id}")]
         public Task<EmployeeDto> Get(int id)
         {
-            return _employeeDomainService.Get(id);
+            return _employeeDomainService.GetById(id);
         }
 
         [HttpPost(nameof(Add))]

@@ -27,7 +27,7 @@ namespace DriveManagement.Controllers.User
         [HttpGet("{id}")]
         public Task<VehicleDto> Get(int id)
         {
-            return _vehicleDomainService.Get(id);
+            return _vehicleDomainService.GetById(id);
         }
 
         [HttpPost(nameof(Add))]
