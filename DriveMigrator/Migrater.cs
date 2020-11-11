@@ -11,9 +11,8 @@ namespace DriveMigrator
 
       public static void Migrate(Microsoft.Extensions.Configuration.IConfiguration configuration)
         {
-            using (DriveDbContext driveDbContext = new DriveDbContext())
+            using (DriveDbContext driveDbContext = new DriveDbContext(configuration))
             {
-                driveDbContext.configuration = configuration;
                 driveDbContext.Database.Migrate();
 
             }

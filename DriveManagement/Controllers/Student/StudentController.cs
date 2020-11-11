@@ -6,10 +6,11 @@ using DriveDomain.DomainDtos;
 using DriveDomain.DomainServices;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DriveManagement.Controllers.Student
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class StudentController : ControllerBase
     {
         private readonly IStudentDomainService _stduentDomainService;
@@ -20,34 +21,34 @@ namespace DriveManagement.Controllers.Student
             this._stduentDomainService = stduentDomainService;
         }
         [HttpGet]
-        public IEnumerable<string> Get()
+        public Task<IEnumerable<StudentDto>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return  _stduentDomainService.Get();
         }
 
         [HttpGet("{id}")]
-        public async Task<StudentDto> Get(int id)
+        public  Task<StudentDto> Get(int id)
         {
-            
+            return  _stduentDomainService.Get(id);
         }
 
-        [HttpPost]
-        public async Task<StudentDto> Add([FromBody]StudentDto  student)
+        [HttpPost(nameof(Add))]
+        public  Task<StudentDto> Add([FromBody]StudentDto  student)
         {
-            return await _stduentDomainService.Add(student);
+            return  _stduentDomainService.Add(student);
         }
 
         // PUT api/<StudentController>/5
-        [HttpPost]
-        public async Task<StudentDto>  Update([FromBody] StudentDto  student)
+        [HttpPost(nameof(Update))]
+        public  Task<StudentDto>  Update([FromBody] StudentDto  student)
         {
-            return await _stduentDomainService.Update(student);
+            return  _stduentDomainService.Update(student);
         }
 
         [HttpDelete]
-        public void Delete(int id)
+        public  Task Delete(int id)
         {
-            return await _stduentDomainService.delete(student);
+            return  _stduentDomainService.delete(id);
         }
     }
 }
