@@ -4,12 +4,16 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DriveEntityFramworkcore.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "Drive");
+
             migrationBuilder.CreateTable(
                 name: "tblUsers",
+                schema: "Drive",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -39,6 +43,7 @@ namespace DriveEntityFramworkcore.Migrations
 
             migrationBuilder.CreateTable(
                 name: "tblVehicles",
+                schema: "Drive",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -54,6 +59,7 @@ namespace DriveEntityFramworkcore.Migrations
 
             migrationBuilder.CreateTable(
                 name: "tblSchools",
+                schema: "Drive",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -71,6 +77,7 @@ namespace DriveEntityFramworkcore.Migrations
                     table.ForeignKey(
                         name: "FK_tblSchools_tblUsers_OwnerId",
                         column: x => x.OwnerId,
+                        principalSchema: "Drive",
                         principalTable: "tblUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -78,6 +85,7 @@ namespace DriveEntityFramworkcore.Migrations
 
             migrationBuilder.CreateTable(
                 name: "tblBatches",
+                schema: "Drive",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -95,6 +103,7 @@ namespace DriveEntityFramworkcore.Migrations
                     table.ForeignKey(
                         name: "FK_tblBatches_tblSchools_SchoolId",
                         column: x => x.SchoolId,
+                        principalSchema: "Drive",
                         principalTable: "tblSchools",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -102,6 +111,7 @@ namespace DriveEntityFramworkcore.Migrations
 
             migrationBuilder.CreateTable(
                 name: "tblEmployees",
+                schema: "Drive",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -123,6 +133,7 @@ namespace DriveEntityFramworkcore.Migrations
                     table.ForeignKey(
                         name: "FK_tblEmployees_tblSchools_SchoolId",
                         column: x => x.SchoolId,
+                        principalSchema: "Drive",
                         principalTable: "tblSchools",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -130,6 +141,7 @@ namespace DriveEntityFramworkcore.Migrations
 
             migrationBuilder.CreateTable(
                 name: "tblEnquiries",
+                schema: "Drive",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -154,6 +166,7 @@ namespace DriveEntityFramworkcore.Migrations
                     table.ForeignKey(
                         name: "FK_tblEnquiries_tblSchools_SchoolId",
                         column: x => x.SchoolId,
+                        principalSchema: "Drive",
                         principalTable: "tblSchools",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -161,6 +174,7 @@ namespace DriveEntityFramworkcore.Migrations
 
             migrationBuilder.CreateTable(
                 name: "tblStudents",
+                schema: "Drive",
                 columns: table => new
                 {
                     Id = table.Column<long>(nullable: false)
@@ -187,12 +201,14 @@ namespace DriveEntityFramworkcore.Migrations
                     table.ForeignKey(
                         name: "FK_tblStudents_tblBatches_BatchId",
                         column: x => x.BatchId,
+                        principalSchema: "Drive",
                         principalTable: "tblBatches",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tblStudents_tblSchools_SchoolId",
                         column: x => x.SchoolId,
+                        principalSchema: "Drive",
                         principalTable: "tblSchools",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -200,31 +216,37 @@ namespace DriveEntityFramworkcore.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblBatches_SchoolId",
+                schema: "Drive",
                 table: "tblBatches",
                 column: "SchoolId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblEmployees_SchoolId",
+                schema: "Drive",
                 table: "tblEmployees",
                 column: "SchoolId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblEnquiries_SchoolId",
+                schema: "Drive",
                 table: "tblEnquiries",
                 column: "SchoolId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblSchools_OwnerId",
+                schema: "Drive",
                 table: "tblSchools",
                 column: "OwnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblStudents_BatchId",
+                schema: "Drive",
                 table: "tblStudents",
                 column: "BatchId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_tblStudents_SchoolId",
+                schema: "Drive",
                 table: "tblStudents",
                 column: "SchoolId");
         }
@@ -232,25 +254,32 @@ namespace DriveEntityFramworkcore.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "tblEmployees");
+                name: "tblEmployees",
+                schema: "Drive");
 
             migrationBuilder.DropTable(
-                name: "tblEnquiries");
+                name: "tblEnquiries",
+                schema: "Drive");
 
             migrationBuilder.DropTable(
-                name: "tblStudents");
+                name: "tblStudents",
+                schema: "Drive");
 
             migrationBuilder.DropTable(
-                name: "tblVehicles");
+                name: "tblVehicles",
+                schema: "Drive");
 
             migrationBuilder.DropTable(
-                name: "tblBatches");
+                name: "tblBatches",
+                schema: "Drive");
 
             migrationBuilder.DropTable(
-                name: "tblSchools");
+                name: "tblSchools",
+                schema: "Drive");
 
             migrationBuilder.DropTable(
-                name: "tblUsers");
+                name: "tblUsers",
+                schema: "Drive");
         }
     }
 }
