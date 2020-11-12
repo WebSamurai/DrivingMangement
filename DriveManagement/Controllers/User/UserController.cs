@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using DriveDomain.DomainDtos;
+﻿using DriveDomain.DomainDtos;
 using DriveDomain.DomainServices;
-using Microsoft.AspNetCore.Authorization;
+using DriveManagement.Middleware;
 using Microsoft.AspNetCore.Mvc;
-
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DriveManagement.Controllers.User
 {
@@ -19,7 +18,7 @@ namespace DriveManagement.Controllers.User
         {
             this._userDomainService = userDomainService;
         }
-       
+
         [HttpGet]
         [Authorize]
         public Task<IEnumerable<UserDto>> Get()

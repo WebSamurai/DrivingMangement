@@ -1,4 +1,5 @@
 using DriveDomain;
+using DriveManagement.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,25 +24,26 @@ namespace DriveManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(opt =>
-            {
-                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //services.AddAuthentication(opt =>
+            //{
+            //    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 
-            }).AddJwtBearer(option=>
-            {
-                option.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuers = new List<string> { "http://localhost:60000" },
-                    ValidAudiences = new List<string> { "http://localhost:60000" },
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
-                };
-            });
+            //}).AddJwtBearer(option=>
+            //{
+            //    option.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        ValidIssuers = new List<string> { "http://localhost:60000" },
+            //        ValidAudiences = new List<string> { "http://localhost:60000" },
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(se))
+            //    };
+            //});
             services.AddControllers();
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             DomainModule.RegisterSerives(services);
             services.AddSwaggerDocument();
         }
@@ -58,9 +60,15 @@ namespace DriveManagement
             {
                 options.DocumentTitle = "Drive Management";
             });
+            app.UseCors(x => x
+             .AllowAnyOrigin()
+             .AllowAnyMethod()
+             .AllowAnyHeader());
+
+            app.UseMiddleware<AuthMidleware>();
             app.UseRouting();
             app.UseAuthentication();
-            app.UseAuthorization();
+   
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
