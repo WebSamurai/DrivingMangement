@@ -3,15 +3,17 @@ using System;
 using DriveEntityFramworkcore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DriveEntityFramworkcore.Migrations
 {
     [DbContext(typeof(DriveDbContext))]
-    partial class DriveDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201115085051_Addedpho_to_user")]
+    partial class Addedpho_to_user
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

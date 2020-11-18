@@ -16,12 +16,13 @@ namespace DriveDomain.DomainDtos
         public virtual string EmailAddress { get; set; }
         public virtual string Password { get; set; }
         public virtual string FullName { get; }
-        public virtual string Surname { get; set; }
-        public virtual string Name { get; set; }
+        public virtual string LastName { get; set; }
+        public virtual string FirstName { get; set; }
         public virtual bool IsEmailConfirmed { get; set; }
         public virtual string UserName { get; set; }
         public virtual string AuthenticationSource { get; set; }
         public virtual string EmailConfirmationCode { get; set; }
         public virtual bool IsActive { get; set; }
+        public byte[] Photo { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace DriveManagement.Middleware
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var user = (UserDto)context.HttpContext.Items["User"];
+            var user = (UserSession)context.HttpContext.Items["User"];
             if (user == null)
             {
                 // not logged in

@@ -8,12 +8,14 @@ namespace DriveDomain.DomainDtos
     {
         public long UserId { get; }
         public string UserName { get; }
-        public string Name { get; }
+        public string FirstName { get; }
+        public string LastName { get; }
         public UserSession(UserDto userDto)
         {
             UserId = userDto.Id;
             UserName = userDto.UserName;
-            Name = userDto.Name;
+            FirstName = userDto.FirstName;
+            LastName = userDto.LastName;
         }
     }
 }

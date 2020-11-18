@@ -7,7 +7,7 @@ namespace DriveEntityFramworkcore.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.Sql(File.ReadAllText(@"../scripts/InitialData.sql"));
+          ///  migrationBuilder.Sql(File.ReadAllText(@"../scripts/InitialData.sql"));
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

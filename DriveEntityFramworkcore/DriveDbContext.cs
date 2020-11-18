@@ -19,6 +19,7 @@ namespace DriveEntityFramworkcore
         public DbSet<Enquiry> Enquiries { get; set; }
         public DbSet<Student> Students { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

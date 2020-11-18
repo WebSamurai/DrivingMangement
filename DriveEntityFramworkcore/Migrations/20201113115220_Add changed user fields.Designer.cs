@@ -3,15 +3,17 @@ using System;
 using DriveEntityFramworkcore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace DriveEntityFramworkcore.Migrations
 {
     [DbContext(typeof(DriveDbContext))]
-    partial class DriveDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201113115220_Add changed user fields")]
+    partial class Addchangeduserfields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -346,9 +348,6 @@ namespace DriveEntityFramworkcore.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("character varying(32)")
                         .HasMaxLength(32);
-
-                    b.Property<byte[]>("Photo")
-                        .HasColumnType("bytea");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("character varying(128)")

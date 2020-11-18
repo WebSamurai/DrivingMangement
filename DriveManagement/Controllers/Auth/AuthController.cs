@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,27 +30,28 @@ namespace DriveManagement.Controllers.Auth
 
         }
         [HttpPost, Route("Login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel user)
+        public async Task<AuthencateResultModel> Login([FromBody] LoginModel user)
         {
             if (user == null)
             {
-                return BadRequest("Invalid client request");
+              throw new UnauthorizedAccessException("Invalid client request");
             }
             var saveduser = await userDomainService.Find(x => x.UserName == user.UserName && x.Password == user.Password);
             if (saveduser!= null)
             {
-                SecurityToken token = GetToken(saveduser);
-                return Ok(new { Token = token });
+                string token = GetToken(saveduser);
+                return new AuthencateResultModel (saveduser,token);
             }
             else
             {
-                return Unauthorized();
+
+                throw new UnauthorizedAccessException("UnAuthozied");
             }
            
 
         }
 
-        private SecurityToken GetToken(DriveDomain.DomainDtos.UserDto saveduser)
+        private string GetToken(DriveDomain.DomainDtos.UserDto saveduser)
         {
             //way 1
 
@@ -78,8 +80,9 @@ namespace DriveManagement.Controllers.Auth
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            setTokenCookie(token.ToString());
-            return token;
+            var stringToken = tokenHandler.WriteToken(token);
+            setTokenCookie(stringToken);
+            return stringToken;
         }
 
         private void setTokenCookie(string token)
