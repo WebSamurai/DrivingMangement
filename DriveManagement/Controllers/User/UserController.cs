@@ -12,11 +12,13 @@ namespace DriveManagement.Controllers.User
     public class UserController : ControllerBase
     {
         private readonly IUserDomainService _userDomainService;
+        private readonly ISchoolDomainService _schoolDomainService;
 
         // GET: api/<StudentController>
-        public UserController(IUserDomainService userDomainService)
+        public UserController(IUserDomainService userDomainService , ISchoolDomainService schoolDomainService)
         {
             this._userDomainService = userDomainService;
+            this._schoolDomainService = schoolDomainService;
         }
 
         [HttpGet]
@@ -33,16 +35,24 @@ namespace DriveManagement.Controllers.User
         }
 
         [HttpPost(nameof(Add))]
-        public Task<UserDto> Add([FromBody] UserDto employee)
+        public async Task<UserDto> Add([FromBody] UserDto user)
         {
-            return _userDomainService.Add(employee);
+            var result=  await _userDomainService.Add(user);
+            var school = new SchoolDto()
+            {
+                Name = user.schoolName,
+                OwnerId = result.Id,
+                IsPrimary=true
+            };
+            await _schoolDomainService.Add(school);
+            return result;
         }
 
         // PUT api/<StudentController>/5
         [HttpPost(nameof(Update))]
-        public Task<UserDto> Update([FromBody] UserDto employee)
+        public Task<UserDto> Update(UserDto user)
         {
-            return _userDomainService.Update(employee);
+            return _userDomainService.Update(user);
         }
 
         [HttpDelete]

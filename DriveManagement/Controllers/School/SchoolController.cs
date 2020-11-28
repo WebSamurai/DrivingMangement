@@ -42,6 +42,11 @@ namespace DriveManagement.Controllers.User
         {
             return _schoolDomainService.Update(school);
         }
+        [HttpGet(nameof(SchoolNameExist))]
+        public Task<bool> SchoolNameExist(string name)
+        {
+            return _schoolDomainService.IsSchoolNameExist(name);
+        }
 
         [HttpDelete]
         public Task Delete(int id)

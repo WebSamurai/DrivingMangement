@@ -27,26 +27,28 @@ namespace DriveManagement.Middleware
         {
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-            if (token != null)
-               await attachUserToContext(context, userService, token);
+            if (token != null && token!="null")
+               await AttachUserToContext(context, userService, token);
 
             await _next(context);
         }
 
-        private async Task attachUserToContext(HttpContext context, IUserDomainService userService, string token)
+        private async Task AttachUserToContext(HttpContext context, IUserDomainService userService, string token)
         {
             try
             {
+                if (token == null)
+                {
+                    return;
+                }
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
                 tokenHandler.ValidateToken(token, new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidIssuers = new List<string> { "http://localhost:60000" },
-                    ValidAudiences = new List<string> { "http://localhost:60000" },
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
@@ -57,6 +59,7 @@ namespace DriveManagement.Middleware
                 // attach user to context on successful jwt validation
                 var user = await userService.GetById(userId);
                 context.Items["User"] = new UserSession(user);
+
             }
             catch
             {

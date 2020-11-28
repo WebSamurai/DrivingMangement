@@ -1,4 +1,5 @@
 ﻿using DriveEntities.Entities;
+using ManageDrive.Entities;
 using System;
 
 namespace DriveDomain.DomainDtos
@@ -25,6 +26,7 @@ namespace DriveDomain.DomainDtos
         public byte[] ProfilePicture { get; set; }
         public bool CloseEnquiry { get; set; }
         public long SchoolId { get; set; }
-        public virtual SchoolDto School { get; set; }
+        public Gender Gender { get; set; }
+        public PrefferedBatch PrefferdBatch { get; set; }
     }
 }

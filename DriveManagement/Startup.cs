@@ -1,14 +1,10 @@
 using DriveDomain;
 using DriveManagement.Middleware;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DriveManagement
 {
@@ -32,7 +28,6 @@ namespace DriveManagement
                      b.AllowAnyMethod();
                      b.AllowAnyHeader();
                  });
-
             });
             services.AddControllers().AddNewtonsoftJson();
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
@@ -57,14 +52,13 @@ namespace DriveManagement
             app.UseMiddleware<AuthMidleware>();
             app.UseRouting();
             app.UseAuthentication();
-   
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "api/{controller=Home}/{action=Index}/{id?}");
             });
-         
         }
     }
 }

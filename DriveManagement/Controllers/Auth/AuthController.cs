@@ -21,12 +21,13 @@ namespace DriveManagement.Controllers.Auth
     {
         private readonly IUserDomainService userDomainService;
         private readonly AppSettings _appSettings;
+        private readonly ISchoolDomainService _schoolDomainService;
 
-
-        public AuthController(IUserDomainService userDomainService, IOptions<AppSettings> appSettings)
+        public AuthController(IUserDomainService userDomainService, ISchoolDomainService schoolDomainService,IOptions<AppSettings> appSettings)
         {
             this.userDomainService = userDomainService;
             _appSettings = appSettings.Value;
+            this._schoolDomainService = schoolDomainService;
 
         }
         [HttpPost, Route("Login")]
@@ -39,7 +40,7 @@ namespace DriveManagement.Controllers.Auth
             var saveduser = await userDomainService.Find(x => x.UserName == user.UserName && x.Password == user.Password);
             if (saveduser!= null)
             {
-                string token = GetToken(saveduser);
+                string token = await GetToken(saveduser);
                 return new AuthencateResultModel (saveduser,token);
             }
             else
@@ -51,7 +52,7 @@ namespace DriveManagement.Controllers.Auth
 
         }
 
-        private string GetToken(DriveDomain.DomainDtos.UserDto saveduser)
+        private async Task<string> GetToken(DriveDomain.DomainDtos.UserDto saveduser)
         {
             //way 1
 
@@ -68,17 +69,25 @@ namespace DriveManagement.Controllers.Auth
             //signingCredentials: signinCredentials
             //);
             //var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-         
+
 
             //way t2
+            var schoolId = (await _schoolDomainService.Get(x => x.OwnerId == saveduser.Id)).First().Id;
+
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var claims = new[] { 
+                new Claim("id", saveduser.Id.ToString()) ,
+                new Claim("schoolId",schoolId.ToString())
+             };
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", saveduser.Id.ToString()) }),
+                Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
+
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var stringToken = tokenHandler.WriteToken(token);
             setTokenCookie(stringToken);

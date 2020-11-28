@@ -21,9 +21,9 @@ namespace DriveManagement.Controllers.Student
             this._stduentDomainService = stduentDomainService;
         }
         [HttpGet]
-        public Task<IEnumerable<StudentDto>> Get()
+        public Task<IEnumerable<StudentListDto>> Get()
         {
-            return  _stduentDomainService.Get();
+            return  _stduentDomainService.GetStudentList();
         }
 
         [HttpGet("{id}")]

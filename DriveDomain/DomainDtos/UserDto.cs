@@ -5,24 +5,25 @@ namespace DriveDomain.DomainDtos
 {
     public class UserDto : EntityBase<long>
     {
-        public virtual bool IsTwoFactorEnabled { get; set; }
-        public virtual string SecurityStamp { get; set; }
-        public virtual bool IsPhoneNumberConfirmed { get; set; }
-        public virtual string PhoneNumber { get; set; }
-        public virtual bool IsLockoutEnabled { get; set; }
-        public virtual int AccessFailedCount { get; set; }
-        public virtual DateTime? LockoutEndDateUtc { get; set; }
-        public virtual string PasswordResetCode { get; set; }
-        public virtual string EmailAddress { get; set; }
-        public virtual string Password { get; set; }
-        public virtual string FullName { get; }
-        public virtual string LastName { get; set; }
-        public virtual string FirstName { get; set; }
-        public virtual bool IsEmailConfirmed { get; set; }
-        public virtual string UserName { get; set; }
-        public virtual string AuthenticationSource { get; set; }
-        public virtual string EmailConfirmationCode { get; set; }
-        public virtual bool IsActive { get; set; }
+        public  bool IsTwoFactorEnabled { get; set; }
+        public  string SecurityStamp { get; set; }
+        public  bool IsPhoneNumberConfirmed { get; set; }
+        public  string PhoneNumber { get; set; }
+        public  bool IsLockoutEnabled { get; set; }
+        public  int AccessFailedCount { get; set; }
+        public  DateTime? LockoutEndDateUtc { get; set; }
+        public  string PasswordResetCode { get; set; }
+        public  string EmailAddress { get; set; }
+        public  string Password { get; set; }
+        public  string FullName { get; }
+        public  string LastName { get; set; }
+        public  string FirstName { get; set; }
+        public  bool IsEmailConfirmed { get; set; }
+        public  string UserName { get; set; }
+        public  string AuthenticationSource { get; set; }
+        public  string EmailConfirmationCode { get; set; }
+        public  bool IsActive { get; set; }
+        public  string schoolName { get; set; }
         public byte[] Photo { get; set; }
     }
 }

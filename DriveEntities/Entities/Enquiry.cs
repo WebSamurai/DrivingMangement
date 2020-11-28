@@ -1,4 +1,5 @@
 ﻿using DriveEntities.Configuration;
+using ManageDrive.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -41,7 +42,11 @@ namespace DriveEntities.Entities
         public byte[] ProfilePicture { get; set; }
         public bool CloseEnquiry { get; set; }
         public long SchoolId { get; set; }
-
+     
+        [Required]
+        public Gender Gender { get; set; }
+        [Required]
+        public string PrefferdBatch { get; set; }
         [ForeignKey(nameof(SchoolId))]
         public virtual School School { get; set; }
     }

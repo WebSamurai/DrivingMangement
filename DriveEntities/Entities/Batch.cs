@@ -21,7 +21,6 @@ namespace DriveEntities.Entities
         [Required]
         public DateTime BatchTime { get; set; }
 
-        public List<Student> Students { get; set; }
         public byte[] Photo { get; set; }
         public long SchoolId { get; set; }
 
