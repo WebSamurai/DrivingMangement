@@ -7,7 +7,7 @@ using DriveDomain.DomainServices;
 using Microsoft.AspNetCore.Mvc;
 
 
-namespace DriveManagement.Controllers.Student
+namespace DriveManagement.Controllers.Enquiry
 {
     [ApiController]
     [Route("api/[controller]")]

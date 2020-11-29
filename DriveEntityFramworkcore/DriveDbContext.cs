@@ -6,7 +6,8 @@ namespace DriveEntityFramworkcore
 {
     public class DriveDbContext : DbContext
     {
-        public DriveDbContext(IConfiguration configuration) : base()
+        public DriveDbContext(IConfiguration configuration) : 
+            base()
         {
             Configuration = configuration;
         }
@@ -20,6 +21,8 @@ namespace DriveEntityFramworkcore
         public DbSet<Student> Students { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<BatchScheduleTemplate> BatchScheduleTemplates { get; set; }
+        public DbSet<StudentSchedule> StudentSchedules { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

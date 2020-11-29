@@ -49,5 +49,7 @@ namespace DriveEntities.Entities
         public string PrefferdBatch { get; set; }
         [ForeignKey(nameof(SchoolId))]
         public virtual School School { get; set; }
+        [Required]
+        public DateTime BirthDate { get; set; }
     }
 }

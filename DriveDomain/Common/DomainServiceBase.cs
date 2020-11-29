@@ -10,35 +10,39 @@ using System.Threading.Tasks;
 
 namespace DriveDomain
 {
-
     public class DomainServiceBase<TDto, T, Tkey> : IDomainService<TDto, T, Tkey> where T : EntityBase<Tkey> where TDto : EntityBase<Tkey>
     {
         protected readonly IRepository<T, Tkey> repository;
         protected readonly IMapper autoMapper;
-        public Action Validator= ()=> { };
+        public Action Validator = () => { };
 
-        public DomainServiceBase(IRepository<T, Tkey> repository,IMapper autoMapper)
+        public DomainServiceBase(IRepository<T, Tkey> repository, IMapper autoMapper)
         {
             this.repository = repository;
             this.autoMapper = autoMapper;
         }
 
-
         public virtual async Task<TDto> Add(TDto t)
         {
             Validator();
             var data = autoMapper.Map<T>(t);
-           await repository.Add(data);
-            return t;
+            var result = await repository.Add(data);
+            return autoMapper.Map<TDto>(result); ;
         }
 
-   
+        public async Task<List<TDto>> Add(List<TDto> t)
+        {
+            Validator();
+            var data = autoMapper.Map<List<T>>(t);
+            var result = await repository.Add(data);
+            return autoMapper.Map<List<TDto>>(result); ;
+        }
 
         public virtual async Task delete(Tkey t)
         {
             Validator();
             var data = await repository.Get(t);
-           await repository.Delete(data);
+            await repository.Delete(data);
         }
 
         public async Task<TDto> Find(Expression<Func<T, bool>> func)
@@ -53,12 +57,12 @@ namespace DriveDomain
 
         public virtual async Task<IEnumerable<TDto>> Get()
         {
-           return  await repository.GetQuery().AsNoTracking().OrderBy(x => x.Id).Select(x=>autoMapper.Map<TDto>(x)).ToListAsync();
+            return await repository.GetQuery().AsNoTracking().OrderBy(x => x.Id).Select(x => autoMapper.Map<TDto>(x)).ToListAsync();
         }
 
-        public  Task<IEnumerable<T>> Get(Expression<Func<T, bool>> func)
+        public Task<IEnumerable<T>> Get(Expression<Func<T, bool>> func)
         {
-            return  repository.Get(func);
+            return repository.Get(func);
         }
 
         public async Task<TDto> GetById(Tkey id)
@@ -72,7 +76,7 @@ namespace DriveDomain
             return repository.GetQuery();
         }
 
-        public async  Task<TDto> Update(TDto t)
+        public async Task<TDto> Update(TDto t)
         {
             Validator();
             var data = autoMapper.Map<T>(t);

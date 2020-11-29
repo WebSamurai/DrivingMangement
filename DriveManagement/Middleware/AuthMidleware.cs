@@ -1,6 +1,7 @@
 ﻿using DriveDomain.DomainDtos;
 using DriveDomain.DomainServices;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -57,7 +58,7 @@ namespace DriveManagement.Middleware
                 var userId = long.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
                 // attach user to context on successful jwt validation
-                var user = await userService.GetById(userId);
+                var user = await userService.Query().Where(x=>x.Id==userId).AsNoTracking().FirstOrDefaultAsync();
                 context.Items["User"] = new UserSession(user);
 
             }

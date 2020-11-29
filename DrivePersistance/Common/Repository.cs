@@ -25,6 +25,13 @@ namespace DrivePersistance.Common
             return t;
         }
 
+        public async Task<List<T>> Add(List<T> t)
+        {
+            _driveDbContext.AddRange(t);
+            await _driveDbContext.SaveChangesAsync();
+            return t;
+        }
+
         public async Task Delete(T t)
         {
             _driveDbContext.Remove<T>(t);

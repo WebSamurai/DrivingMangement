@@ -27,6 +27,9 @@ namespace DriveEntityFramworkcore.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
+                    b.Property<long>("BatchScheduleTemplateId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("BatchTime")
                         .HasColumnType("timestamp without time zone");
 
@@ -49,9 +52,48 @@ namespace DriveEntityFramworkcore.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BatchScheduleTemplateId");
+
                     b.HasIndex("SchoolId");
 
                     b.ToTable("tblBatches");
+                });
+
+            modelBuilder.Entity("DriveEntities.Entities.BatchScheduleTemplate", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("character varying(256)")
+                        .HasMaxLength(256);
+
+                    b.Property<int>("NumberOfPracticalSession")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("NumberOfTheorySession")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("PracticalTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<long>("SchoolId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("TheoryTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SchoolId");
+
+                    b.ToTable("tblBatchScheduleTemplate");
                 });
 
             modelBuilder.Entity("DriveEntities.Entities.Employee", b =>
@@ -126,6 +168,9 @@ namespace DriveEntityFramworkcore.Migrations
                         .HasColumnType("character varying(12)")
                         .HasMaxLength(12);
 
+                    b.Property<DateTime>("BirthDate")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<bool>("CloseEnquiry")
                         .HasColumnType("boolean");
 
@@ -145,6 +190,9 @@ namespace DriveEntityFramworkcore.Migrations
                     b.Property<DateTime?>("FollowupDate")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<byte>("Gender")
+                        .HasColumnType("smallint");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("character varying(256)")
@@ -155,6 +203,10 @@ namespace DriveEntityFramworkcore.Migrations
                         .HasMaxLength(256);
 
                     b.Property<string>("MobileNo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PrefferdBatch")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -182,7 +234,6 @@ namespace DriveEntityFramworkcore.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("character varying(512)")
                         .HasMaxLength(512);
 
@@ -281,6 +332,46 @@ namespace DriveEntityFramworkcore.Migrations
                     b.HasIndex("SchoolId");
 
                     b.ToTable("tblStudents");
+                });
+
+            modelBuilder.Entity("DriveEntities.Entities.StudentSchedule", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<long>("BatchScheduleTemplateId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("InstructorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsAttended")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsInstructorSignOff")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("ScheduleDate")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<DateTime>("ScheduleTime")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<byte>("Scheduletype")
+                        .HasColumnType("smallint");
+
+                    b.Property<long>("StudentId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BatchScheduleTemplateId");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("tblStudentSchedule");
                 });
 
             modelBuilder.Entity("DriveEntities.Entities.User", b =>
@@ -391,6 +482,21 @@ namespace DriveEntityFramworkcore.Migrations
 
             modelBuilder.Entity("DriveEntities.Entities.Batch", b =>
                 {
+                    b.HasOne("DriveEntities.Entities.BatchScheduleTemplate", "BatchScheduleTemplate")
+                        .WithMany()
+                        .HasForeignKey("BatchScheduleTemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DriveEntities.Entities.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DriveEntities.Entities.BatchScheduleTemplate", b =>
+                {
                     b.HasOne("DriveEntities.Entities.School", "School")
                         .WithMany()
                         .HasForeignKey("SchoolId")
@@ -428,7 +534,7 @@ namespace DriveEntityFramworkcore.Migrations
             modelBuilder.Entity("DriveEntities.Entities.Student", b =>
                 {
                     b.HasOne("DriveEntities.Entities.Batch", "Batch")
-                        .WithMany("Students")
+                        .WithMany()
                         .HasForeignKey("BatchId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -436,6 +542,21 @@ namespace DriveEntityFramworkcore.Migrations
                     b.HasOne("DriveEntities.Entities.School", "School")
                         .WithMany()
                         .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DriveEntities.Entities.StudentSchedule", b =>
+                {
+                    b.HasOne("DriveEntities.Entities.BatchScheduleTemplate", "BatchScheduleTemplate")
+                        .WithMany()
+                        .HasForeignKey("BatchScheduleTemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DriveEntities.Entities.Student", "Student")
+                        .WithMany()
+                        .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

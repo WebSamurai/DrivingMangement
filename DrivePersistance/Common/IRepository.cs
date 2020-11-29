@@ -14,7 +14,7 @@ namespace DrivePersistance.Common
     public interface IRepository<T, PKey> : IRepository where T : EntityBase
     {
         Task<T> Add(T t);
-
+        Task<List<T>> Add(List<T> t);
         Task<T> Update(T t);
 
         Task Delete(T t);

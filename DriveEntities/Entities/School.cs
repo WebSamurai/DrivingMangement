@@ -11,7 +11,6 @@ namespace DriveEntities.Entities
         [StringLength(DBColumnSize.MaxStringLength256)]
         public string Name { get; set; }
 
-        [Required]
         [StringLength(DBColumnSize.MaxStringLength512)]
         public string Address { get; set; }
 

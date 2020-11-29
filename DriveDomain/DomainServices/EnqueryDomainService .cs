@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace DriveDomain.DomainServices
 {
-    public class EnqueryDomainService : DomainServiceBase<EnquiryDto, Enquiry, long>, IEnquiryDomainService
+    public class EnquiryDomainService : DomainServiceBase<EnquiryDto, Enquiry, long>, IEnquiryDomainService
     {
         private readonly IRepository<Enquiry, long> repository;
 
-        public EnqueryDomainService(IRepository<Enquiry, long> repository, IMapper autoMapper) : base(repository, autoMapper)
+        public EnquiryDomainService(IRepository<Enquiry, long> repository, IMapper autoMapper) : base(repository, autoMapper)
         {
             this.repository = repository;
         }

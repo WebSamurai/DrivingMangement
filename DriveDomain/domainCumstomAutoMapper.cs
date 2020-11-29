@@ -24,7 +24,9 @@ namespace DriveDomain
             CreateMap<Employee, EmployeeDto>().ReverseMap().ForMember(x => x.School, opt => opt.Ignore()); 
             CreateMap<SchoolDto, School>().ForMember(x=>x.User,opt=> opt.Ignore());
             CreateMap<School, SchoolDto>();
-
+            CreateMap<BatchScheduleTemplate, BatchScheduleTemplateDto>().ReverseMap();
+            CreateMap<StudentSchedule, StudentScheduleDto>().ReverseMap();
+            CreateMap<List<StudentSchedule>, List<StudentScheduleDto>>().ReverseMap();
         }
     }
 }

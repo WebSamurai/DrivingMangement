@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DriveEntities.Entities;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,7 +11,7 @@ namespace DriveDomain.DomainDtos
         public string UserName { get; }
         public string FirstName { get; }
         public string LastName { get; }
-        public UserSession(UserDto userDto)
+        public UserSession(User userDto)
         {
             UserId = userDto.Id;
             UserName = userDto.UserName;

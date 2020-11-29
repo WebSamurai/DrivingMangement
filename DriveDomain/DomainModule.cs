@@ -30,7 +30,10 @@ namespace DriveDomain
             services.AddTransient(typeof(IBatchDomainService), typeof(BatchDomainService));
             services.AddTransient(typeof(ISchoolDomainService), typeof(SchoolDomainService));
             services.AddTransient(typeof(IVehicleDomainService), typeof(VehicleDomainService));
-            services.AddTransient(typeof(IStudentDomainService), typeof(StudentDomainService)); 
+            services.AddTransient(typeof(IStudentDomainService), typeof(StudentDomainService));
+            services.AddTransient(typeof(IEnquiryDomainService), typeof(EnquiryDomainService));
+            services.AddTransient(typeof(IBatchScheduleTemplateDomainService), typeof(BatchScheduleTemplateDomainService));
+            services.AddTransient(typeof(IStudentScheduleDomainService), typeof(StudentScheduleDomainService));
         }
         
     }

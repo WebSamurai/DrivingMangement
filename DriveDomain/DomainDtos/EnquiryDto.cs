@@ -18,7 +18,7 @@ namespace DriveDomain.DomainDtos
         public DateTime? FollowupDate { get; set; }
         public string EmailAddress { get; set; }
         public string MobileNo { get; set; }
-
+        public DateTime BirthDate { get; set; }
         public bool isWatsApp { get; set; }
 
         public string AlternateNo { get; set; }

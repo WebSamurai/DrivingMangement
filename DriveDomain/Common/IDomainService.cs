@@ -10,6 +10,7 @@ namespace DriveDomain
     public interface IDomainService<TDto, T, Tkey> where T : EntityBase where TDto : EntityBase
     {
         Task<TDto> Add(TDto t);
+        Task<List<TDto>> Add(List<TDto> t);
 
         Task<TDto> Update(TDto t);
 
